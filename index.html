@@ -4,7 +4,51 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 </head>
+<style>
+	#block{
+		width: 300px;
+		height: 180px;
+		border:1px solid black;
+		position: absolute;
+		top:calc(50% - 90px);
+		left: calc(50% - 150px);
+	}
+	#head{
+		width: 100%;
+		height: 40px;
+		border-bottom: 1px solid black;
+		cursor:move;
+	}
+</style>
 <body>
-	第一次提交git
+	<div id="block">
+	<div id="head"></div>
+	</div>
+	<script>
+		var head=document.getElementById('head');
+		var block=document.getElementById('block');
+		var _offx;
+		var _offy;
+		var move=false;
+		head.onmousedown=function(e){
+			_offx=e.screenX-this.getBoundingClientRect().left;
+			_offy=e.screenY-this.getBoundingClientRect().top;
+			move=true;
+		}
+		document.onmousemove=function(e)
+		{
+			if(move)
+			{
+				y=e.screenY-_offy;
+				x=e.screenX-_offx;
+				block.style.top=y+'px';
+				block.style.left=x+'px';
+			}
+		}
+		document.onmouseup=function(e)
+		{
+			move=false;
+		}
+	</script>
 </body>
 </html>
