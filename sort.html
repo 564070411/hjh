@@ -86,12 +86,13 @@
 	</table>
 	<script src="jq.js"></script>
 	<script>
-	
 	$(function(){
+		$("div[class$='_j']").click(function(){
+			var j_obj='.'+$(this).attr('class');
 			var Otr=$('tr');
-		$('.top_j').click(function(){
 			var tr_arr=[];
-			var xiabiao=$('.top_j').index(this)+1;
+			var text;
+			var xiabiao=$(j_obj).index(this)+1;
 			for(var i=1;i<Otr.length;i++)
 			{
 				tr_arr.push({
@@ -100,38 +101,20 @@
 				});
 			}
 			rst=quicksort(tr_arr);
-			creat(rst);
-		});
-		$('.bot_j').click(function(){
-			var tr_arr=[];
-			var xiabiao=$('.bot_j').index(this)+1;
-			for(var i=1;i<Otr.length;i++)
+			if(j_obj=='.top_j')
+				rst.reverse();
+			$('tr:gt(0)').remove();
+			for(var i=0;i<rst.length;i++)
 			{
-				tr_arr.push({
-					obj:Otr.eq(i),
-					val:parseInt(Otr.eq(i).children().eq(xiabiao).html())
-				});
+				text+='<tr>'+rst[i].obj.html()+'</tr>';
 			}
-			rst=quicksort(tr_arr);
-			rst.reverse();
-			creat(rst);
+			$('tbody').append(text);
 		});
 	});
-	function creat(rst)
-	{
-		$('tr:gt(0)').remove();
-		var text;
-		for(var i=0;i<rst.length;i++)
-		{
-			text+='<tr>'+rst[i].obj.html()+'</tr>';
-		}
-		$('tbody').append(text);
-	}
-	function quicksort(arr,ord)
+	function quicksort(arr)
 	{
 		var frist=arr[0];
 		var f_arr=[];
-		f_arr.push(frist);
 		var left=[];
 		var right=[];
 		for(var i=1;i<arr.length;i++)
