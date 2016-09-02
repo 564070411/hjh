@@ -32,71 +32,20 @@
 			border: 1px solid black;
 			height: 40px;
 		}
-		thead{
-			position: static;
-			top:0px;
-			background-color: black;
-			color:white;
+		table tr:nth-child(1) td{
+			position: relative;
 		}
-
 	</style>
 </head>
 <body>
-<p>填充</p>
-<p>填充</p>
-<p>填充</p>
-<p>填充</p>
-<p>填充</p>
-<p>填充</p>
-<p>填充</p>
-<p>填充</p>
-<p>填充</p>
-<p>填充</p>
 	<table>
-		<thead>	
+		<tbody>
 		<tr>
 			<td>姓名</td>
 			<td>语文<div class="jiantou"><div class="top_j"></div><div class="bot_j"></div></div></td>
 			<td>数学<div class="jiantou"><div class="top_j"></div><div class="bot_j"></div></div></td>
 			<td>英语<div class="jiantou"><div class="top_j"></div><div class="bot_j"></div></div></td>
 			<td>总分<div class="jiantou"><div class="top_j"></div><div class="bot_j"></div></div></td>
-		</tr>
-		</thead>
-		<tbody>
-		<tr>
-			<td>张三</td>
-			<td>70</td>
-			<td>80</td>
-			<td>30</td>
-			<td>120</td>
-		</tr>
-		<tr>
-			<td>李四</td>
-			<td>50</td>
-			<td>70</td>
-			<td>62</td>
-			<td>182</td>
-		</tr>
-		<tr>
-			<td>王五</td>
-			<td>100</td>
-			<td>65</td>
-			<td>45</td>
-			<td>210</td>
-		</tr>
-		<tr>
-			<td>赵六</td>
-			<td>60</td>
-			<td>90</td>
-			<td>55</td>
-			<td>150</td>
-		</tr>
-		<tr>
-			<td>林七</td>
-			<td>40</td>
-			<td>20</td>
-			<td>77</td>
-			<td>210</td>
 		</tr>
 		<tr>
 			<td>张三</td>
@@ -135,55 +84,14 @@
 		</tr>
 		</tbody>
 	</table>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
-	<p>填充</p>
 	<script src="jq.js"></script>
 	<script>
+	
 	$(function(){
-		$("div[class$='_j']").click(function(){
-			var j_obj='.'+$(this).attr('class');
 			var Otr=$('tr');
+		$('.top_j').click(function(){
 			var tr_arr=[];
-			var text;
-			var xiabiao=$(j_obj).index(this)+1;
+			var xiabiao=$('.top_j').index(this)+1;
 			for(var i=1;i<Otr.length;i++)
 			{
 				tr_arr.push({
@@ -192,20 +100,38 @@
 				});
 			}
 			rst=quicksort(tr_arr);
-			if(j_obj=='.top_j')
-				rst.reverse();
-			$('tr:gt(0)').remove();
-			for(var i=0;i<rst.length;i++)
+			creat(rst);
+		});
+		$('.bot_j').click(function(){
+			var tr_arr=[];
+			var xiabiao=$('.bot_j').index(this)+1;
+			for(var i=1;i<Otr.length;i++)
 			{
-				text+='<tr>'+rst[i].obj.html()+'</tr>';
+				tr_arr.push({
+					obj:Otr.eq(i),
+					val:parseInt(Otr.eq(i).children().eq(xiabiao).html())
+				});
 			}
-			$('tbody').append(text);
+			rst=quicksort(tr_arr);
+			rst.reverse();
+			creat(rst);
 		});
 	});
-	function quicksort(arr)
+	function creat(rst)
+	{
+		$('tr:gt(0)').remove();
+		var text;
+		for(var i=0;i<rst.length;i++)
+		{
+			text+='<tr>'+rst[i].obj.html()+'</tr>';
+		}
+		$('tbody').append(text);
+	}
+	function quicksort(arr,ord)
 	{
 		var frist=arr[0];
 		var f_arr=[];
+		f_arr.push(frist);
 		var left=[];
 		var right=[];
 		for(var i=1;i<arr.length;i++)
@@ -222,16 +148,6 @@
 		rst=left.concat(frist,right);
 		return rst;
 	}
-	$(document).scroll(function(){
-		var thtop=parseInt($('thead').offset().top);
-		var wintop=parseInt($(this).scrollTop());
-		console.log(thtop);
-		// console.log(thtop)
-		// if(wintop>=thtop)
-			// $('thead').css('position','fixed')
-		// else
-			// $('thead').css('position','absolute');
-	});
 	</script>
 </body>
 </html>
