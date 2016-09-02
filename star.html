@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<body>
+	<div id="hjhstart"></div>
+	<script src="jq.js"></script>
+	<script>
+		var defconf={
+			number:5,
+			size:24,
+			score:0,
+			path:'./img',
+			onpng:'on.png',
+			offpng:'off.png',
+			click:function(score){
+				alert(score+'分');
+			}
+		};
+		var text='';
+		var onpath=defconf.path+'/'+defconf.onpng;
+		var offpath=defconf.path+'/'+defconf.offpng;
+		$.fn.raty=function(config){
+			strobj=$(this);
+			config&&$.extend(defconf,config);
+			while(defconf.number>0)
+			{
+				text+='<img src="'+offpath+'" whidth="'+defconf.size+'"></img>'
+				defconf.number--;
+			}
+			strobj.append(text);
+			strobj.children("img").each(function(){
+				$(this).mousemove(function(){
+					onpic($(this).index());
+				}).click(function(){
+					defconf.click($(this).index()+1);
+				})
+			});
+		};
+		function onpic(index)
+		{
+			strobj.children("img").attr('src',offpath);
+			for(var i=0;i<=index;i++)
+			{
+				strobj.children("img").eq(i).attr('src',onpath)
+			}
+		}
+	</script>
+	<script>
+		$(function(){
+			$('#hjhstart').raty();
+		});
+	</script>
+</body>
+</html>
